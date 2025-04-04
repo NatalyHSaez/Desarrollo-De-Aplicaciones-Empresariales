@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reserva de Oficinas</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Oficinas Disponibles</h1>
+
+  <div class="oficinas-container">
+    <div class="oficina" onclick="mostrarFormulario('Oficina 1')">
+      <img src="img-oficinas/oficina 1.jpg" alt="Oficina 1" />
+      <p>Oficina 1</p>
+    </div>
+    <div class="oficina" onclick="mostrarFormulario('Oficina 2')">
+      <img src="img-oficinas/oficina 2.jpg" alt="Oficina 2" />
+      <p>Oficina 2</p>
+    </div>
+    <div class="oficina" onclick="mostrarFormulario('Oficina 2')">
+        <img src="img-oficinas/oficina 3.jpg" alt="Oficina 2" />
+        <p>Oficina 3</p>
+    </div>
+  </div>
+
+  <!-- Formulario superpuesto -->
+  <div id="formularioOverlay" class="overlay hidden">
+    <div class="form-container-popup">
+      <button class="cerrar" onclick="cerrarFormulario()">✖</button>
+      <h2 id="tituloOficina"></h2>
+      <p><strong>Ubicación:</strong> Piso 1</p>
+      <p><strong>Capacidad:</strong> 4 personas</p>
+
+      <form id="reservaForm">
+        <label for="nombre">Tu nombre:</label>
+        <input type="text" id="nombre" required />
+
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" required />
+
+        <label for="hora">Hora:</label>
+        <input type="time" id="hora" required />
+
+        <button type="submit">Reservar</button>
+      </form>
+
+      <div id="mensajeExito" class="exito hidden">✅ ¡Reserva realizada con éxito!</div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
