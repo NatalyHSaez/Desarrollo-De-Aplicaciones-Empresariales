@@ -70,19 +70,19 @@ const App = () => {
 
           {/* Buscador + Filtro */}
           <div className="relative w-full max-w-lg mb-4">
-            <div className="flex items-center">
+            <div className="flex items-center space-x-2">
               <input
                 type="text"
                 placeholder="Buscar..."
-                className="w-full h-12 p-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full h-12 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
 
-              <button className="h-12 w-12 flex items-center justify-center bg-blue-500 text-white border-t border-b border-blue-500">
+              <button className="h-12 w-12 flex items-center justify-center bg-blue-500 text-white rounded-md hover:scale-105 transition-transform">
                 <FaSearch />
               </button>
 
               <button
-                className="h-12 w-12 flex items-center justify-center bg-gray-500 text-white rounded-r-md border border-gray-500 transition-transform transform hover:scale-110"
+                className="h-12 w-12 flex items-center justify-center bg-gray-500 text-white rounded-md hover:scale-110 transition-transform"
                 onClick={() => setMostrarFiltros(!mostrarFiltros)}
               >
                 <FaFilter />
@@ -93,9 +93,9 @@ const App = () => {
             {mostrarFiltros && (
               <motion.div
                 className="absolute z-10 mt-2 w-full bg-white border rounded shadow-lg p-4 grid grid-cols-1 gap-3"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
                 <div>
