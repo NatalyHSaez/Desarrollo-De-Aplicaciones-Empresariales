@@ -1,16 +1,23 @@
-import React from 'react';
+import React from "react";
+import oficinas from "../data/oficinas"; // Ajusta la ruta si estás en otra carpeta
+import { motion } from "framer-motion";
 
-const Oficinas = ({ oficinas, onClick }) => {
+const Oficinas = () => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-      {oficinas.map((oficina, index) => (
-        <div 
-          key={index} 
-          className="p-4 bg-gray-200 rounded-lg cursor-pointer hover:bg-celeste"
-          onClick={() => onClick(oficina)}
+    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {oficinas.map((oficina) => (
+        <div
+          key={oficina.id}
+          className="bg-gray-50 rounded-lg shadow p-4 flex flex-col"
         >
-          <h3 className="font-bold">{oficina.nombre}</h3>
-          <p>{oficina.descripcion}</p>
+          <img
+            src={oficina.imagen}
+            alt={oficina.nombre}
+            className="h-40 w-full object-cover rounded-md mb-4"
+          />
+          <h3 className="text-lg font-semibold">{oficina.nombre}</h3>
+          <p className="text-sm text-gray-600">{oficina.capacidad}</p>
+          <p className="text-sm text-gray-600">{oficina.ubicacion}</p>
         </div>
       ))}
     </div>

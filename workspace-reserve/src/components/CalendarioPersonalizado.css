@@ -1,0 +1,15 @@
+
+.react-calendar {
+    width: 100% !important;
+    max-width: 100%;
+    font-family: 'Arial', sans-serif;
+    line-height: 1.125em;
+  }
+  
+  .react-calendar__tile.marcado {
+    background-color: #4ade80 !important; /* verde Tailwind (emerald-400) */
+    color: white !important;
+    border-radius: 6px;
+  }
+  
+  
