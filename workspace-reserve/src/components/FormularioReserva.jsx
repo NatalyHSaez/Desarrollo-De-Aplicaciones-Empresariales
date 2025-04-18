@@ -1,77 +1,52 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const FormularioReserva = ({ oficina, onClose }) => {
-  const [formulario, setFormulario] = useState({ fecha: "", horaInicio: "", horaFin: "" });
+  const [fecha, setFecha] = useState("");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormulario((prev) => ({ ...prev, [name]: value }));
-  };
+  const handleReserva = () => {
+    if (!fecha) {
+      alert("Por favor selecciona una fecha.");
+      return;
+    }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Reserva confirmada:", {
+    const nuevaReserva = {
       oficina: oficina.nombre,
-      ...formulario,
-    });
-    alert("¡Reserva realizada con éxito!");
+      fecha,
+      usuario: "123@gmail.com", // Ajustar si hay sistema de login real
+    };
+
+    const reservasGuardadas = JSON.parse(localStorage.getItem("reservas")) || [];
+    const nuevasReservas = [...reservasGuardadas, nuevaReserva];
+
+    localStorage.setItem("reservas", JSON.stringify(nuevasReservas));
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg mx-2">
-        <h3 className="text-2xl font-bold mb-4">Reservar: {oficina.nombre}</h3>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Fecha</label>
-            <input
-              type="date"
-              name="fecha"
-              value={formulario.fecha}
-              onChange={handleChange}
-              className="w-full border rounded p-2"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Hora de Inicio</label>
-            <input
-              type="time"
-              name="horaInicio"
-              value={formulario.horaInicio}
-              onChange={handleChange}
-              className="w-full border rounded p-2"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Hora de Finalización</label>
-            <input
-              type="time"
-              name="horaFin"
-              value={formulario.horaFin}
-              onChange={handleChange}
-              className="w-full border rounded p-2"
-              required
-            />
-          </div>
-          <div className="flex justify-end space-x-2 pt-4">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded"
-            >
-              Confirmar
-            </button>
-          </div>
-        </form>
+    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded shadow-lg w-full max-w-md relative">
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-lg"
+        >
+          ✕
+        </button>
+        <h2 className="text-xl font-semibold mb-4">
+          Reserva: {oficina.nombre}
+        </h2>
+        <label className="block mb-2">Fecha de reserva:</label>
+        <input
+          type="date"
+          value={fecha}
+          onChange={(e) => setFecha(e.target.value)}
+          className="border rounded w-full p-2 mb-4"
+        />
+        <button
+          onClick={handleReserva}
+          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-full"
+        >
+          Confirmar Reserva
+        </button>
       </div>
     </div>
   );
