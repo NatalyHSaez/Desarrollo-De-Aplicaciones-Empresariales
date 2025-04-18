@@ -1,6 +1,7 @@
 import { useState } from "react";
 import oficinas from "../data/oficinas";
 import { FaSearch, FaFilter } from "react-icons/fa";
+import FormularioReserva from "./FormularioReserva";
 
 const Oficinas = ({ usuario }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -8,31 +9,23 @@ const Oficinas = ({ usuario }) => {
   const [filtroTipo, setFiltroTipo] = useState("");
   const [filtroCapacidad, setFiltroCapacidad] = useState("");
   const [filtroTorre, setFiltroTorre] = useState("");
-  const [filtroPiso, setFiltroPiso] = useState(""); // string, convertiremos a int al comparar
+  const [filtroPiso, setFiltroPiso] = useState("");
+  const [oficinaSeleccionada, setOficinaSeleccionada] = useState(null);
 
   const handleBusqueda = (e) => setBusqueda(e.target.value);
 
   const oficinasFiltradas = oficinas.filter((oficina) => {
-    const coincideBusqueda =
-      oficina.nombre.toLowerCase().includes(busqueda.toLowerCase());
-
-    const coincideTipo = filtroTipo
-      ? oficina.tipo.toLowerCase() === filtroTipo.toLowerCase()
-      : true;
-
+    const coincideBusqueda = oficina.nombre
+      .toLowerCase()
+      .includes(busqueda.toLowerCase());
+    const coincideTipo = filtroTipo ? oficina.tipo === filtroTipo : true;
     const coincideCapacidad = filtroCapacidad
-      ? oficina.capacidad === parseInt(filtroCapacidad, 10)
+      ? oficina.capacidad >= parseInt(filtroCapacidad, 10)
       : true;
-
-    const coincideTorre = filtroTorre
-      ? oficina.torre.toLowerCase() === filtroTorre.toLowerCase()
+    const coincideTorre = filtroTorre ? oficina.torre === filtroTorre : true;
+    const coincidePiso = filtroPiso
+      ? oficina.piso === parseInt(filtroPiso, 10)
       : true;
-
-    const coincidePiso =
-      filtroPiso !== ""
-        ? oficina.piso === parseInt(filtroPiso, 10)
-        : true;
-
     return (
       coincideBusqueda &&
       coincideTipo &&
@@ -42,65 +35,67 @@ const Oficinas = ({ usuario }) => {
     );
   });
 
+  const tiposUnicos = [
+    ...new Set(oficinas.map((oficina) => oficina.tipo)),
+  ]; // Obtenemos tipos únicos
+
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-semibold mb-4">Oficinas Disponibles</h2>
-
-      {/* Barra de búsqueda y botón de filtro */}
-      <div className="flex items-center gap-2 mb-4 max-w-md">
-        <div className="relative w-full">
+      {/* Buscador y botón de filtros */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+        <div className="relative flex-1">
           <input
             type="text"
+            placeholder="Buscar..."
             value={busqueda}
             onChange={handleBusqueda}
-            placeholder="Buscar..."
-            className="border border-gray-300 rounded px-3 py-2 w-full pr-10"
+            className="w-full border rounded p-2 pl-10"
           />
-          <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
         <button
           onClick={() => setMostrarFiltros(!mostrarFiltros)}
-          className="bg-green-500 hover:bg-green-600 text-white p-2 rounded"
+          className="flex items-center bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded"
         >
-          <FaFilter />
+          <FaFilter className="mr-2" />
+          Filtros
         </button>
       </div>
 
-      {/* Menú desplegable de filtros */}
+      {/* Sección de filtros avanzados */}
       {mostrarFiltros && (
-        <div className="mb-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
           <select
             value={filtroTipo}
             onChange={(e) => setFiltroTipo(e.target.value)}
             className="border rounded p-2"
           >
             <option value="">Tipo</option>
-            <option value="oficina">Oficina</option>
-            <option value="sala de reuniones">Sala de Reuniones</option>
-            <option value="sala de estudio">Sala de Estudio</option>
+            {tiposUnicos.map((tipo) => (
+              <option key={tipo} value={tipo}>
+                {tipo}
+              </option>
+            ))}
           </select>
-
           <input
             type="number"
+            placeholder="Capacidad mínima"
             value={filtroCapacidad}
             onChange={(e) => setFiltroCapacidad(e.target.value)}
-            placeholder="Capacidad"
             className="border rounded p-2"
           />
-
           <input
             type="text"
+            placeholder="Torre"
             value={filtroTorre}
             onChange={(e) => setFiltroTorre(e.target.value)}
-            placeholder="Torre"
             className="border rounded p-2"
           />
-
           <input
             type="number"
+            placeholder="Piso"
             value={filtroPiso}
             onChange={(e) => setFiltroPiso(e.target.value)}
-            placeholder="Piso"
             className="border rounded p-2"
           />
         </div>
@@ -108,32 +103,43 @@ const Oficinas = ({ usuario }) => {
 
       {/* Lista de oficinas */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {oficinasFiltradas.map((oficina, index) => (
+        {oficinasFiltradas.map((oficina) => (
           <div
-            key={index}
+            key={oficina.id}
             className="border p-4 rounded shadow hover:shadow-md transition relative"
           >
-            {usuario && (
-              <button className="absolute top-2 left-2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded">
-                Reservar
-              </button>
-            )}
             <img
               src={oficina.imagen}
               alt={oficina.nombre}
-              className="w-full h-40 object-cover rounded mb-2"
+              className="h-48 w-full object-cover rounded mb-4"
             />
-            <h3 className="text-lg font-semibold">{oficina.nombre}</h3>
-            <p className="text-sm text-gray-600">{oficina.tipo}</p>
+            <h2 className="text-xl font-semibold mb-1">{oficina.nombre}</h2>
+            <p className="text-gray-600 mb-2">{oficina.tipo}</p>
             <p className="text-sm text-gray-600">
               Torre {oficina.torre} - Piso {oficina.piso}
             </p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-600 mb-2">
               Capacidad: {oficina.capacidad}
             </p>
+            {usuario && (
+              <button
+                onClick={() => setOficinaSeleccionada(oficina)}
+                className="absolute top-2 right-2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded"
+              >
+                Reservar
+              </button>
+            )}
           </div>
         ))}
       </div>
+
+      {/* Modal de reserva */}
+      {oficinaSeleccionada && (
+        <FormularioReserva
+          oficina={oficinaSeleccionada}
+          onClose={() => setOficinaSeleccionada(null)}
+        />
+      )}
     </div>
   );
 };

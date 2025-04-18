@@ -2,6 +2,8 @@ import Oficinas from "./Oficinas";
 import Calendario from "./Calendario";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import oficinasData from "../data/oficinas"; 
+import ProximasReservas from "./ProximasReservas";
 
 const Inicio = ({ usuario, setUsuario }) => {
   const navigate = useNavigate();
@@ -61,10 +63,11 @@ const Inicio = ({ usuario, setUsuario }) => {
 
       <main className="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <Oficinas usuario={usuario} />
+          <Oficinas usuario={usuario} oficinas={oficinasData} /> {/* ✅ Agregado */}
         </div>
         <div>
           <Calendario />
+          <ProximasReservas usuario={usuario} />
         </div>
       </main>
     </div>
