@@ -1,16 +1,16 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import oficinas from "../data/oficinas";
 import { FaSearch, FaFilter } from "react-icons/fa";
-import FormularioReserva from "./FormularioReserva";
+import FormularioReserva from "./FormularioReserva"; // Asegúrate de importar correctamente
 
-const Oficinas = ({ usuario }) => {
+const Oficinas = ({ usuario, actualizarReservas }) => {
   const [busqueda, setBusqueda] = useState("");
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const [filtroTipo, setFiltroTipo] = useState("");
   const [filtroCapacidad, setFiltroCapacidad] = useState("");
   const [filtroTorre, setFiltroTorre] = useState("");
   const [filtroPiso, setFiltroPiso] = useState("");
-  const [oficinaSeleccionada, setOficinaSeleccionada] = useState(null);
+  const [oficinaSeleccionada, setOficinaSeleccionada] = useState(null); // 👈
 
   const handleBusqueda = (e) => setBusqueda(e.target.value);
 
@@ -35,9 +35,7 @@ const Oficinas = ({ usuario }) => {
     );
   });
 
-  const tiposUnicos = [
-    ...new Set(oficinas.map((oficina) => oficina.tipo)),
-  ]; // Obtenemos tipos únicos
+  const tiposUnicos = [...new Set(oficinas.map((oficina) => oficina.tipo))];
 
   return (
     <div className="p-4">
@@ -62,7 +60,7 @@ const Oficinas = ({ usuario }) => {
         </button>
       </div>
 
-      {/* Sección de filtros avanzados */}
+      {/* Filtros avanzados */}
       {mostrarFiltros && (
         <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
           <select
@@ -123,7 +121,7 @@ const Oficinas = ({ usuario }) => {
             </p>
             {usuario && (
               <button
-                onClick={() => setOficinaSeleccionada(oficina)}
+                onClick={() => setOficinaSeleccionada(oficina)} // 👈
                 className="absolute top-2 right-2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded"
               >
                 Reservar
@@ -137,6 +135,7 @@ const Oficinas = ({ usuario }) => {
       {oficinaSeleccionada && (
         <FormularioReserva
           oficina={oficinaSeleccionada}
+          usuario={usuario}
           onClose={() => setOficinaSeleccionada(null)}
         />
       )}

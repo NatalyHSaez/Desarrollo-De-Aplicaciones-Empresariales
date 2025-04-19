@@ -9,7 +9,9 @@ const Login = ({ setUsuario }) => {
   const handleLogin = (e) => {
     e.preventDefault();
     if (correo === "123@gmail.com" && contrasena === "123") {
-      setUsuario({ correo });
+      const usuario = { correo };
+      setUsuario(usuario);
+      localStorage.setItem("usuario", JSON.stringify(usuario)); // ✅ Guardar sesión
       navigate("/");
     } else {
       alert("Credenciales incorrectas");
