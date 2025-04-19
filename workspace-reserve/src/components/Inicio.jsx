@@ -67,7 +67,7 @@ const Inicio = ({ usuario, setUsuario }) => {
         </div>
         <div>
           <Calendario />
-          <ProximasReservas usuario={usuario} />
+          {usuario && <ProximasReservas usuario={usuario} />}
         </div>
       </main>
     </div>

@@ -13,6 +13,15 @@ function App() {
     }
   }, []);
 
+  // Cada vez que cambia el usuario, lo actualizamos en localStorage
+  useEffect(() => {
+    if (usuario) {
+      localStorage.setItem("usuario", JSON.stringify(usuario));
+    } else {
+      localStorage.removeItem("usuario");
+    }
+  }, [usuario]);
+
   return (
     <Router>
       <Routes>
