@@ -24,18 +24,18 @@ const Login = ({ setUsuario }) => {
         onSubmit={handleLogin}
         className="bg-white p-8 rounded shadow-md w-96 space-y-4"
       >
-        <h2 className="text-2xl font-bold text-center">Iniciar Sesión</h2>
+        <h2 className="text-2xl bg-black font-bold text-center">Iniciar Sesión</h2>
         <input
           type="email"
           placeholder="Correo Electrónico"
-          className="w-full border border-gray-300 p-2 rounded"
+          className="w-full bg-white-300 border border-gray-300 p-2 rounded"
           value={correo}
           onChange={(e) => setCorreo(e.target.value)}
         />
         <input
           type="password"
           placeholder="Contraseña"
-          className="w-full border border-gray-300 p-2 rounded"
+          className="w-full  bg-white-300 border border-gray-300 p-2 rounded"
           value={contrasena}
           onChange={(e) => setContrasena(e.target.value)}
         />
