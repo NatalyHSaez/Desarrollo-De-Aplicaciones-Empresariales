@@ -28,7 +28,7 @@ const Login = ({ setUsuario }) => {
         <input
           type="email"
           placeholder="Correo Electrónico"
-          className="w-full bg-white border border-gray-300 p-2 rounded"
+          className="w-full border border-gray-300 p-2 rounded"
           value={correo}
           onChange={(e) => setCorreo(e.target.value)}
         />
