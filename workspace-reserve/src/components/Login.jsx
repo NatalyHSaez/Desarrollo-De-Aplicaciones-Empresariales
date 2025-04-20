@@ -24,20 +24,20 @@ const Login = ({ setUsuario }) => {
         onSubmit={handleLogin}
         className="bg-white p-8 rounded shadow-md w-96 space-y-4"
       >
-        <h2 className="text-2xl bg-black text-white font-bold text-center">
+        <h2 className="text-2xl bg-black text-white font-bold text-center py-2 rounded">
           Iniciar Sesión
         </h2>
         <input
           type="email"
           placeholder="Correo Electrónico"
-          className="w-full bg-white border border-gray-300 p-2 rounded"
+          className="w-full bg-white text-black border border-gray-300 p-2 rounded"
           value={correo}
           onChange={(e) => setCorreo(e.target.value)}
         />
         <input
           type="password"
           placeholder="Contraseña"
-          className="w-full bg-white border border-gray-300 p-2 rounded"
+          className="w-full bg-white text-black border border-gray-300 p-2 rounded"
           value={contrasena}
           onChange={(e) => setContrasena(e.target.value)}
         />
