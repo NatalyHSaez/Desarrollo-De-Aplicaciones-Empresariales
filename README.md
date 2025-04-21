@@ -3,6 +3,7 @@
 **Workspace Reserve** es una aplicación web creada con **React**, **React Router**, **Vite** y **Tailwind CSS**, diseñada para gestionar la reserva de espacios de trabajo como salas de 
 reuniones de manera simple e intuitiva.
 
+[🌐 Ver Deploy en Vercel](https://workspacereserve.vercel.app/)
 ## 🚀 Características
 
 - 📅 Reserva de oficinas con fecha y hora de inicio y finalización.
@@ -19,27 +20,42 @@ reuniones de manera simple e intuitiva.
 - [React Router](https://reactrouter.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - JavaScript
-- [Vercel] (https://workspacereserve.vercel.app/)
 
 ## 📁 Estructura del Proyecto
 
 ```
 workspace-reserve/
 ├── public/
-│   └── img/                 # Imágenes de oficinas
+│   └── img/                # Imágenes de las oficinas
 ├── src/
-│   ├── components/
+│   ├── assets/             # Recursos como íconos o fuentes (si se agregan)
+│   ├── components/         # Componentes principales de la UI
+│   │   ├── Calendario.jsx
+│   │   ├── CalendarioPersonalizado.css
+│   │   ├── CuentaMenu.jsx
 │   │   ├── FormularioReserva.jsx
+│   │   ├── Inicio.jsx
+│   │   ├── Login.jsx
+│   │   ├── Oficinas.jsx
 │   │   └── ProximasReservas.jsx
-│   ├── data/
-│   │   └── oficinas.js
-│   ├── routes/
-│   │   └── AppRouter.jsx
-│   ├── App.jsx
-│   ├── main.jsx
-│   └── index.css
+│   ├── data/               # Datos simulados o mock (JSON/JS)
+│   │   ├── oficinas.js
+│   │   └── reservas.js
+│   ├── App.jsx             # Rutas principales
+│   ├── App.css             # Estilos globales
+│   ├── index.css           # Tailwind + estilos base
+│   ├── main.jsx            # Punto de entrada React
+│   └── calendarCustom.css  # Estilos para calendario
+├── index.html              # HTML principal
 ├── package.json
-└── README.md
+├── .gitignore
+├── eslint.config.js
+├── package-lock.json
+├── postcss.config.js
+├── README.md
+├── tailwind.config.js
+├── vite.config.js
+└── workspace-reserve.zip
 ```
 
 ## 🔧 Instalación
@@ -79,6 +95,16 @@ workspace-reserve/
 - ☁️ Conexión a base de datos en la nube
 - 📊 Reportes y estadísticas de uso
 - 🧭 Filtros por fecha, oficina o usuario
+
+---
+
+## 📌 Notas
+
+- Las reservas se guardan en `localStorage`, por lo que persisten aunque se recargue la página.
+- Se puede extender el proyecto fácilmente para incluir una API o backend real.
+- Incluye una estructura modular para escalar.
+
+---
 
 ## ✍️ Nataly Huaiquinao Sáez
 
