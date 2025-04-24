@@ -51,9 +51,13 @@ const Inicio = ({ usuario, setUsuario }) => {
                   >
                     Iniciar Sesión
                   </button>
-                  <button className="block px-4 py-2 hover:bg-gray-200 w-full text-left">
+                  <button
+                    className="block px-4 py-2 hover:bg-gray-200 w-full text-left"
+                    onClick={() => navigate("/registro")}
+                  >
                     Registrarse
                   </button>
+
                 </>
               )}
             </div>
