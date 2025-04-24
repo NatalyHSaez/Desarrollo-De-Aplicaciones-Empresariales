@@ -10,7 +10,7 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
   const [filtroCapacidad, setFiltroCapacidad] = useState("");
   const [filtroTorre, setFiltroTorre] = useState("");
   const [filtroPiso, setFiltroPiso] = useState("");
-  const [oficinaSeleccionada, setOficinaSeleccionada] = useState(null); // 👈
+  const [oficinaSeleccionada, setOficinaSeleccionada] = useState(null);
 
   const handleBusqueda = (e) => setBusqueda(e.target.value);
 
@@ -99,6 +99,21 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
         </div>
       )}
 
+      {/* Botón solo visible para administradores */}
+      {usuario?.cargo === "Administrador" && (
+        <div className="mb-4">
+          <button
+            onClick={() => {
+              // Aquí puedes abrir un modal o redirigir a un formulario
+              alert("Abrir formulario para agregar oficina");
+            }}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          >
+            Agregar Oficina
+          </button>
+        </div>
+      )}
+
       {/* Lista de oficinas */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {oficinasFiltradas.map((oficina) => (
@@ -121,7 +136,7 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
             </p>
             {usuario && (
               <button
-                onClick={() => setOficinaSeleccionada(oficina)} // 👈
+                onClick={() => setOficinaSeleccionada(oficina)}
                 className="absolute top-2 right-2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded"
               >
                 Reservar
