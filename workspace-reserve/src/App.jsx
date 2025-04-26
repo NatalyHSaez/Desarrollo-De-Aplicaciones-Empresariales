@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Inicio from "./components/Inicio";
 import Login from "./components/Login";
 import Registro from "./components/Registro";
-import InicioAdmin from "./components/InicioAdmin"; // ✅ Importar panel de admin
+import InicioAdmin from "./components/InicioAdmin";
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -24,33 +24,35 @@ function App() {
   }, [usuario]);
 
   return (
-    <Router>
-      <Routes>
-        {/* Ruta para usuarios regulares */}
-        <Route
-          path="/"
-          element={<Inicio usuario={usuario} setUsuario={setUsuario} />}
-        />
+    <div className="min-h-screen flex flex-col">
+      <Router>
+        <Routes>
+          {/* Página principal */}
+          <Route
+            path="/"
+            element={<Inicio usuario={usuario} setUsuario={setUsuario} />}
+          />
 
-        {/* Ruta de login */}
-        <Route
-          path="/login"
-          element={<Login setUsuario={setUsuario} />}
-        />
+          {/* Página de login */}
+          <Route
+            path="/login"
+            element={<Login setUsuario={setUsuario} />}
+          />
 
-        {/* Ruta de registro */}
-        <Route
-          path="/registro"
-          element={<Registro />}
-        />
+          {/* Página de registro */}
+          <Route
+            path="/registro"
+            element={<Registro />}
+          />
 
-        {/* Ruta para panel de administración */}
-        <Route
-          path="/admin"
-          element={<InicioAdmin usuario={usuario} setUsuario={setUsuario} />}
-        />
-      </Routes>
-    </Router>
+          {/* Panel de administrador */}
+          <Route
+            path="/admin"
+            element={<InicioAdmin usuario={usuario} setUsuario={setUsuario} />}
+          />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

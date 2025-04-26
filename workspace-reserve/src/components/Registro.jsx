@@ -53,10 +53,10 @@ const Registro = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
         onSubmit={handleRegistro}
-        className="bg-white p-8 pt-4 rounded shadow-md w-96 space-y-4 mt-20"
+        className="bg-white p-8 pt-4 rounded shadow-md w-96 space-y-4 overflow-auto"
       >
         <div className="flex space-x-4 mb-4">
           <button

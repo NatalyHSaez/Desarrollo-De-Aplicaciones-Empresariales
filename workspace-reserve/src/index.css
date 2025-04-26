@@ -41,7 +41,12 @@ body {
   min-height: 100vh;
 }
 
-/* 👇 ESTO ES LO NUEVO */
+/* 👇 NUEVO: para corregir la franja blanca y el ">" */
+html, body, #root {
+  overflow-x: hidden;
+}
+
+/* 👇 ESTO ES LO NUEVO TAMBIÉN: estilos input */
 input {
   background-color: white !important;
   color: black !important;
