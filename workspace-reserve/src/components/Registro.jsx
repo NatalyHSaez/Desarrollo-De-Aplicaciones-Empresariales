@@ -7,7 +7,7 @@ const Registro = () => {
   const [apellido, setApellido] = useState("");
   const [fechaNacimiento, setFechaNacimiento] = useState("");
   const [cargo, setCargo] = useState("");
-  const [codigoPais, setCodigoPais] = useState("+56"); // Predeterminado: México
+  const [codigoPais, setCodigoPais] = useState("+56");
   const [telefono, setTelefono] = useState("");
   const [correo, setCorreo] = useState("");
   const [contrasena, setContrasena] = useState("");
@@ -56,7 +56,7 @@ const Registro = () => {
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <form
         onSubmit={handleRegistro}
-        className="bg-white p-8 pt-4 rounded shadow-md w-96 space-y-4"
+        className="bg-white p-8 pt-4 rounded shadow-md w-96 space-y-4 mt-20"
       >
         <div className="flex space-x-4 mb-4">
           <button
@@ -127,7 +127,6 @@ const Registro = () => {
           />
         )}
 
-        {/* Teléfono con código de país */}
         <div className="flex space-x-2">
           <select
             value={codigoPais}
@@ -149,7 +148,7 @@ const Registro = () => {
             className="w-2/3 border border-gray-300 p-2 rounded"
             value={telefono}
             onChange={(e) => {
-              const value = e.target.value.replace(/\D/g, ""); // Solo dígitos
+              const value = e.target.value.replace(/\D/g, "");
               if (value.length <= 9) {
                 setTelefono(value);
               }
