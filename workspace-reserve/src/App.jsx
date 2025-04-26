@@ -4,6 +4,7 @@ import Inicio from "./components/Inicio";
 import Login from "./components/Login";
 import Registro from "./components/Registro";
 import InicioAdmin from "./components/InicioAdmin";
+import Perfil from "./components/Perfil"; // 👈 AÑADIDO
 
 function App() {
   const [usuario, setUsuario] = useState(null);
@@ -49,6 +50,12 @@ function App() {
           <Route
             path="/admin"
             element={<InicioAdmin usuario={usuario} setUsuario={setUsuario} />}
+          />
+
+          {/* Página de perfil */}
+          <Route
+            path="/perfil"
+            element={<Perfil usuario={usuario} />}
           />
         </Routes>
       </Router>
