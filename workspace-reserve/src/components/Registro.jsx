@@ -115,7 +115,6 @@ const Registro = () => {
             <option value="">Seleccionar cargo</option>
             <option value="Supervisor">Supervisor</option>
             <option value="Ejecutivo">Ejecutivo</option>
-            <option value="Administrativo">Administrativo</option>
             <option value="Estudiante">Estudiante</option>
           </select>
         ) : (

@@ -62,15 +62,15 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
 
       {/* Filtros avanzados */}
       {mostrarFiltros && (
-        <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+        <div className="mb-4 grid grid-cols-1 sm:grid-cols-2  md:grid-cols-4 gap-2">
           <select
             value={filtroTipo}
             onChange={(e) => setFiltroTipo(e.target.value)}
-            className="border bg-gray-600 rounded p-2"
+            className="border bg-white-600 text-gray rounded p-2"
           >
             <option value="" className="border bg-gray-600 rounded p-2">Tipo</option>
             {tiposUnicos.map((tipo) => (
-              <option key={tipo} value={tipo} className="border bg-gray-600 rounded p-2">
+              <option key={tipo} value={tipo} className="border rounded p-2">
                 {tipo}
                 
               </option>

@@ -48,8 +48,8 @@ const ProximasReservas = () => {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="text-xl text-black-600 font-semibold mb-4">Próximas Reservas</h2>
+    <div className="p-4 text-black-600">
+      <h2 className="text-xl font-semibold mb-4">Próximas Reservas</h2>
 
       {reservas.length === 0 ? (
         <p className="text-black-600">No tienes reservas próximas.</p>
