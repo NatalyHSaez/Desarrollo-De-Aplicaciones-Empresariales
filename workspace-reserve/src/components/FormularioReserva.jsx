@@ -12,14 +12,24 @@ const FormularioReserva = ({ oficina, onClose, usuario }) => {
       return;
     }
 
+    // Obtener la fecha y hora actual
+    const ahora = new Date();
+    const fechaHoraInicio = new Date(`${fechaInicio}T${horaInicio}:00`);
+    
+    // Verificar que la hora de inicio sea al menos 1 hora después de la hora actual
+    if (fechaHoraInicio <= ahora) {
+      alert("La reserva debe ser al menos una hora después de la hora actual.");
+      return;
+    }
+
     const nuevaReserva = {
       oficina: oficina.nombre,
-      oficinaId: oficina.id, // para la imagen
+      oficinaId: oficina.id,
       fechaInicio,
       horaInicio,
       fechaFin,
       horaFin,
-      usuario: usuario?.email || "anónimo",
+      usuario: usuario?.nombre || "anónimo",
     };
 
     const reservasGuardadas = JSON.parse(localStorage.getItem("reservas")) || [];

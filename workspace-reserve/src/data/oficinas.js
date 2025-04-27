@@ -1,4 +1,4 @@
-const oficinas = [
+let oficinas = [
   {
     id: 1,
     nombre: "Oficina 101",

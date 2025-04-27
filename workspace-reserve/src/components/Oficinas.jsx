@@ -99,21 +99,6 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
         </div>
       )}
 
-      {/* Botón solo visible para administradores */}
-      {usuario?.cargo === "Administrador" && (
-        <div className="mb-4">
-          <button
-            onClick={() => {
-              // Aquí puedes abrir un modal o redirigir a un formulario
-              alert("Abrir formulario para agregar oficina");
-            }}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-          >
-            Agregar Oficina
-          </button>
-        </div>
-      )}
-
       {/* Lista de oficinas */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {oficinasFiltradas.map((oficina) => (
@@ -134,12 +119,20 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
             <p className="text-sm text-gray-600 mb-2">
               Capacidad: {oficina.capacidad}
             </p>
-            {usuario && (
+            {usuario && usuario.cargo !== "Administrador" && (
               <button
                 onClick={() => setOficinaSeleccionada(oficina)}
                 className="absolute top-2 right-2 bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded"
               >
                 Reservar
+              </button>
+            )}
+            {usuario && usuario.cargo === "Administrador" && (
+              <button
+                onClick={() => setOficinaSeleccionada(oficina)}
+                className="absolute top-2 right-2 bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
+              >
+                Modificar
               </button>
             )}
           </div>
