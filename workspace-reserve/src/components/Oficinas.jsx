@@ -111,7 +111,7 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
               alt={oficina.nombre}
               className="h-48 w-full object-cover rounded mb-4"
             />
-            <h2 className="text-xl font-semibold mb-1">{oficina.nombre}</h2>
+            <h2 className="text-xl text-black font-semibold mb-1">{oficina.nombre}</h2>
             <p className="text-gray-600 mb-2">{oficina.tipo}</p>
             <p className="text-sm text-gray-600">
               Torre {oficina.torre} - Piso {oficina.piso}
