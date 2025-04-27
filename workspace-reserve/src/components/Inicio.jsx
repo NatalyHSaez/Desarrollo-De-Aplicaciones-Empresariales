@@ -31,13 +31,13 @@ const Inicio = ({ usuario, setUsuario }) => {
               {usuario ? (
                 <>
                   <button
-                    className="block px-4 py-2 hover:bg-gray-200 w-full text-left"
+                    className="block px-4 py-2 bg-gray-200 w-full text-left"
                     onClick={() => navigate("/perfil")}
                   >
                     Ver Perfil
                   </button>
                   <button
-                    className="block px-4 py-2 hover:bg-gray-200 w-full text-left"
+                    className="block px-4 py-2 bg-gray-200 w-full text-left"
                     onClick={handleLogout}
                   >
                     Cerrar Sesión
@@ -46,13 +46,13 @@ const Inicio = ({ usuario, setUsuario }) => {
               ) : (
                 <>
                   <button
-                    className="block px-4 py-2 hover:bg-gray-200 w-full text-left"
+                    className="block px-4 py-2 bg-gray-200 w-full text-left"
                     onClick={() => navigate("/login")}
                   >
                     Iniciar Sesión
                   </button>
                   <button
-                    className="block px-4 py-2 hover:bg-gray-200 w-full text-left"
+                    className="block px-4 py-2 bg-gray-200 w-full text-left"
                     onClick={() => navigate("/registro")}
                   >
                     Registrarse
