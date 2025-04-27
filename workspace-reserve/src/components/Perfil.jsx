@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProximasReservas from "./ProximasReservas";
+import { FaPlusCircle } from "react-icons/fa";
+import AgregarOficina from "./AgregarOficina"; 
+import Oficinas from "./Oficinas"; // Importando el componente Oficinas
 
 const Perfil = ({ usuario }) => {
   const navigate = useNavigate();
   const [editando, setEditando] = useState(false);
   const [nuevoUsuario, setNuevoUsuario] = useState({ ...usuario });
   const [nuevaImagen, setNuevaImagen] = useState(null);
+  const [agregarOficina, setAgregarOficina] = useState(false);
 
   if (!usuario) {
     return (
@@ -18,9 +22,9 @@ const Perfil = ({ usuario }) => {
 
   const handleGuardar = () => {
     const usuarioActualizado = {
-      ...usuario, // Mantenemos la información original
-      ...nuevoUsuario, // Sobreescribimos solo lo que se haya cambiado
-      imagen: nuevaImagen || usuario.imagen, // Imagen nueva si se cambió
+      ...usuario,
+      ...nuevoUsuario,
+      imagen: nuevaImagen || usuario.imagen,
     };
     localStorage.setItem("usuario", JSON.stringify(usuarioActualizado));
     setEditando(false);
@@ -40,14 +44,10 @@ const Perfil = ({ usuario }) => {
 
   const handleEliminar = () => {
     console.log("Eliminando perfil...");
-    // Elimina los datos del usuario del localStorage
     localStorage.removeItem("usuario");
-
-    // Verificar si la eliminación fue exitosa
     const usuarioEliminado = localStorage.getItem("usuario");
     if (!usuarioEliminado) {
       console.log("Perfil eliminado exitosamente");
-      // Redirige al usuario a la página de registro
       navigate("/registro");
     } else {
       console.log("No se pudo eliminar el perfil");
@@ -61,15 +61,68 @@ const Perfil = ({ usuario }) => {
         <div className="flex flex-col items-center space-y-4">
           <div className="w-40 h-40 rounded-full border-2 border-gray-300 overflow-hidden shadow-sm">
             <img
-              src={nuevaImagen || usuario.imagen || "/img/perfil.jpg"} // Imagen predeterminada si no hay imagen de perfil
+              src={nuevaImagen || usuario.imagen || "/img/perfil.jpg"}
               alt="Perfil"
               className="w-full h-full object-cover"
             />
           </div>
-          <h2 className="text-3xl font-bold text-center">{usuario.nombre} {usuario.apellido}</h2> {/* Mostrar apellido */}
+          {editando ? (
+            <input
+              type="file"
+              onChange={handleImagenChange}
+              className="mt-4 text-blue-600"
+            />
+          ) : null}
+          <h2 className="text-3xl font-bold text-center">{usuario.nombre} {usuario.apellido}</h2>
         </div>
 
-        {/* Descripción */}
+        {/* Formulario de edición */}
+        {editando && (
+          <div className="space-y-4">
+            <input
+              type="text"
+              value={nuevoUsuario.nombre}
+              onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, nombre: e.target.value })}
+              className="w-full p-3 border rounded-xl"
+              placeholder="Nombre"
+            />
+            <input
+              type="text"
+              value={nuevoUsuario.apellido}
+              onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, apellido: e.target.value })}
+              className="w-full p-3 border rounded-xl"
+              placeholder="Apellido"
+            />
+            <input
+              type="text"
+              value={usuario.cargo}
+              disabled
+              className="w-full p-3 border rounded-xl bg-gray-200 cursor-not-allowed"
+              placeholder="Cargo"
+            />
+            <input
+              type="date"
+              value={nuevoUsuario.fechaNacimiento}
+              onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, fechaNacimiento: e.target.value })}
+              className="w-full p-3 border rounded-xl"
+            />
+            <input
+              type="tel"
+              value={nuevoUsuario.telefono}
+              onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, telefono: e.target.value })}
+              className="w-full p-3 border rounded-xl"
+              placeholder="Teléfono"
+            />
+            <textarea
+              value={nuevoUsuario.descripcion}
+              onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, descripcion: e.target.value })}
+              className="w-full p-3 border rounded-xl"
+              placeholder="Descripción"
+            />
+          </div>
+        )}
+
+        {/* Mostrar la descripción si no está en modo edición */}
         {!editando && (
           <div className="bg-gray-50 p-6 rounded-xl">
             <h3 className="text-2xl font-semibold mb-4">Sobre mí</h3>
@@ -77,7 +130,7 @@ const Perfil = ({ usuario }) => {
           </div>
         )}
 
-        {/* Información de perfil */}
+        {/* Mostrar información de perfil */}
         {!editando && (
           <div>
             <h3 className="text-2xl font-semibold mb-4">Información de Perfil</h3>
@@ -87,169 +140,77 @@ const Perfil = ({ usuario }) => {
               {usuario.cargo && <li><strong>Cargo:</strong> {usuario.cargo}</li>}
               {usuario.fechaNacimiento && <li><strong>Fecha de Nacimiento:</strong> {usuario.fechaNacimiento}</li>}
               {usuario.telefono && <li><strong>Teléfono:</strong> {usuario.telefono}</li>}
-              <li><strong>Email:</strong> {usuario.correo}</li> {/* Mostrar el email */}
+              <li><strong>Email:</strong> {usuario.correo}</li>
             </ul>
-          </div>
-        )}
-
-        {/* Botón para activar edición */}
-        {!editando && (
-          <div className="flex justify-center">
-            <button
-              onClick={() => setEditando(true)}
-              className="bg-blue-600 hover:bg-blue-500 text-white text-lg px-6 py-2 rounded-xl transition"
-            >
-              Editar Perfil
-            </button>
-          </div>
-        )}
-
-        {/* Formulario de edición */}
-        {editando && (
-          <div className="space-y-6">
-            <h3 className="text-2xl font-semibold mb-4">Editar Perfil</h3>
-
-            {/* Cambiar Imagen */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-lg font-semibold">Imagen de Perfil</label>
-              <input type="file" accept="image/*" onChange={handleImagenChange} />
-            </div>
-
-            {/* Nombre */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-lg font-semibold">Nombre y Apellido</label>
-              <input
-                type="text"
-                className="border rounded-xl p-3"
-                value={nuevoUsuario.nombre || ""}
-                onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, nombre: e.target.value })}
-              />
-            </div>
-
-            {/* Cargo */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-lg font-semibold">Cargo</label>
-              <input
-                type="text"
-                className="border rounded-xl p-3"
-                value={nuevoUsuario.cargo || ""}
-                onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, cargo: e.target.value })}
-              />
-            </div>
-
-            {/* Fecha de nacimiento */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-lg font-semibold">Fecha de Nacimiento</label>
-              <input
-                type="date"
-                className="border rounded-xl p-3"
-                value={nuevoUsuario.fechaNacimiento || ""}
-                onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, fechaNacimiento: e.target.value })}
-              />
-            </div>
-
-            {/* Teléfono */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-lg font-semibold">Número de Teléfono</label>
-              <input
-                type="text"
-                className="border rounded-xl p-3"
-                value={nuevoUsuario.telefono || ""}
-                onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, telefono: e.target.value })}
-              />
-            </div>
-
-            {/* Email */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-lg font-semibold">Correo Electrónico</label>
-              <input
-                type="email"
-                className="border rounded-xl p-3"
-                value={nuevoUsuario.correo || ""}
-                onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, email: e.target.value })}
-              />
-            </div>
-
-            {/* Descripción */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-lg font-semibold">Descripción</label>
-              <textarea
-                className="border rounded-xl p-3"
-                value={nuevoUsuario.descripcion || ""}
-                onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, descripcion: e.target.value })}
-                rows="4"
-              />
-            </div>
-
-            {/* Contraseña */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-lg font-semibold">Nueva Contraseña</label>
-              <input
-                type="password"
-                className="border rounded-xl p-3"
-                placeholder="********"
-                onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, contraseña: e.target.value })}
-              />
-            </div>
-
-            {/* Botones de acción */}
-            <div className="flex gap-4 justify-center">
+            {/* Botón para editar perfil */}
+            <div className="flex justify-between pt-4">
               <button
-                onClick={handleGuardar}
-                className="bg-green-500 hover:bg-green-400 text-white text-lg px-6 py-2 rounded-xl transition"
+                onClick={() => setEditando(true)}
+                className="bg-gray-600 hover:bg-blue-500 text-white text-lg px-6 py-2 rounded-xl min-w-[200px] transition"
               >
-                Guardar Cambios
+                Editar Perfil
               </button>
-              <button
-                onClick={() => setEditando(false)}
-                className="bg-gray-500 hover:bg-gray-400 text-white text-lg px-6 py-2 rounded-xl transition"
-              >
-                Cancelar
-              </button>
+              {usuario.cargo === "Administrador" && (
+                <button
+                  onClick={() => setAgregarOficina(true)}
+                  className="flex items-center bg-gray-600 hover:bg-gray-500 text-white text-lg px-6 py-2 rounded-xl min-w-[200px] transition"
+                >
+                  <FaPlusCircle className="mr-2" /> Agregar Oficina
+                </button>
+              )}
             </div>
           </div>
         )}
 
-        {/* Sección de Reservas */}
-        {!editando && (
+        {/* Mostrar reservas si no es administrador */}
+        {usuario.cargo !== "Administrador" && !editando && (
           <>
             <div>
-              <h3 className="text-2xl font-semibold mb-4">Reservas Pendientes</h3>
               <ProximasReservas usuario={usuario} estado="pendiente" />
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">Reservas Ejecutadas</h3>
-              <ProximasReservas usuario={usuario} estado="ejecutada" />
-            </div>
-
-            <div>
-              <h3 className="text-2xl font-semibold mb-4">Reservas Canceladas</h3>
-              <ProximasReservas usuario={usuario} estado="cancelada" />
-            </div>
-
-            {/* Botón volver al inicio */}
-            <div className="flex justify-center pt-6">
-              <button
-                onClick={() => navigate("/")}
-                className="bg-purple-600 hover:bg-purple-500 text-white text-lg px-8 py-3 rounded-xl transition"
-              >
-                Volver al Inicio
-              </button>
             </div>
           </>
         )}
 
-        {/* Botón de eliminar perfil */}
-        <div className="flex justify-center pt-6">
+        {/* Mostrar botón y oficinas solo si es administrador */}
+        {usuario.cargo === "Administrador" && (
+          <>
+            <div className="flex justify-center pt-6">
+              <Oficinas />
+            </div>
+          </>
+        )}
+
+        {/* Botón para guardar los cambios */}
+        {editando && (
+          <div className="flex justify-center pt-6">
+            <button
+              onClick={handleGuardar}
+              className="bg-gray-600 hover:bg-gray-500 text-white text-lg px-6 py-2 rounded-xl min-w-[200px] transition"
+            >
+              Guardar Cambios
+            </button>
+          </div>
+        )}
+
+        {/* Botones de Volver al inicio y Eliminar perfil, más separados */}
+        <div className="flex justify-center space-x-6 pt-6">
+          <button
+            onClick={() => navigate("/")}
+            className="bg-gray-600 hover:bg-gray-500 text-white text-lg px-6 py-2 rounded-xl min-w-[200px] transition"
+          >
+            Volver al Inicio
+          </button>
           <button
             onClick={handleEliminar}
-            className="bg-red-600 hover:bg-red-500 text-white text-lg px-8 py-3 rounded-xl transition"
+            className="bg-red-600 hover:bg-red-500 text-white text-lg px-6 py-2 rounded-xl min-w-[200px] transition"
           >
             Eliminar Perfil
           </button>
         </div>
       </div>
+
+      {/* Mostrar formulario de agregar oficina */}
+      {agregarOficina && <AgregarOficina setAgregarOficina={setAgregarOficina} />}
     </div>
   );
 };
