@@ -70,8 +70,8 @@ const ProximasReservas = () => {
               </div>
 
               {/* Información de la reserva */}
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold">{reserva.oficina}</h3>
+              <div className="flex-1 text-black-600">
+                <h3 className="text-lg text-gray-600 font-semibold">{reserva.oficina}</h3>
                 <p className="text-sm text-gray-600">Usuario: {reserva.usuario || "anónimo"}</p>
                 <p className="text-sm text-gray-600">
                   Inicio: {reserva.fechaInicio || "?"} a las {reserva.horaInicio || "?"}

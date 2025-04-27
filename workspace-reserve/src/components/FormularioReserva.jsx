@@ -48,47 +48,47 @@ const FormularioReserva = ({ oficina, onClose, usuario }) => {
         >
           ✕
         </button>
-        <h2 className="text-xl font-semibold mb-4">
+        <h2 className="text-xl text-black-600 font-semibold mb-4">
           Reserva: {oficina.nombre}
         </h2>
 
         <div className="mb-4">
-          <label className="block mb-1">Fecha de inicio:</label>
+          <label className="text-black-600 block mb-1">Fecha de inicio:</label>
           <input
             type="date"
             value={fechaInicio}
             onChange={(e) => setFechaInicio(e.target.value)}
-            className="border rounded w-full p-2"
+            className="text-black-600 border rounded w-full p-2"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1">Hora de inicio:</label>
+          <label className="text-black-600 block mb-1">Hora de inicio:</label>
           <input
             type="time"
             value={horaInicio}
             onChange={(e) => setHoraInicio(e.target.value)}
-            className="border rounded w-full p-2"
+            className="text-black-600 border rounded w-full p-2"
           />
         </div>
 
         <div className="mb-4">
-          <label className="block mb-1">Fecha de finalización:</label>
+          <label className="text-black-600 block mb-1">Fecha de finalización:</label>
           <input
             type="date"
             value={fechaFin}
             onChange={(e) => setFechaFin(e.target.value)}
-            className="border rounded w-full p-2"
+            className="text-black-600 border rounded w-full p-2"
           />
         </div>
 
         <div className="mb-6">
-          <label className="block mb-1">Hora de finalización:</label>
+          <label className="text-black-600 block mb-1">Hora de finalización:</label>
           <input
             type="time"
             value={horaFin}
             onChange={(e) => setHoraFin(e.target.value)}
-            className="border rounded w-full p-2"
+            className="text-black-600 border rounded w-full p-2"
           />
         </div>
 
