@@ -73,7 +73,7 @@ const Perfil = ({ usuario }) => {
               className="mt-4 text-blue-600"
             />
           ) : null}
-          <h2 className="text-3xl font-bold text-center">{usuario.nombre} {usuario.apellido}</h2>
+          <h2 className="text-3xl text-black-600 font-bold text-center">{usuario.nombre} {usuario.apellido}</h2>
         </div>
 
         {/* Formulario de edición */}
@@ -83,40 +83,40 @@ const Perfil = ({ usuario }) => {
               type="text"
               value={nuevoUsuario.nombre}
               onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, nombre: e.target.value })}
-              className="w-full p-3 border rounded-xl"
+              className="w-full p-3 border text-black-600 rounded-xl"
               placeholder="Nombre"
             />
             <input
               type="text"
               value={nuevoUsuario.apellido}
               onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, apellido: e.target.value })}
-              className="w-full p-3 border rounded-xl"
+              className="w-full p-3 border text-black-600 rounded-xl"
               placeholder="Apellido"
             />
             <input
               type="text"
               value={usuario.cargo}
               disabled
-              className="w-full p-3 border rounded-xl bg-gray-200 cursor-not-allowed"
+              className="w-full p-3 border rounded-xl text-black-600 bg-gray-200 cursor-not-allowed"
               placeholder="Cargo"
             />
             <input
               type="date"
               value={nuevoUsuario.fechaNacimiento}
               onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, fechaNacimiento: e.target.value })}
-              className="w-full p-3 border rounded-xl"
+              className="w-full p-3 border text-black-600 rounded-xl"
             />
             <input
               type="tel"
               value={nuevoUsuario.telefono}
               onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, telefono: e.target.value })}
-              className="w-full p-3 border rounded-xl"
+              className="w-full p-3 border text-black-600 rounded-xl"
               placeholder="Teléfono"
             />
             <textarea
               value={nuevoUsuario.descripcion}
               onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, descripcion: e.target.value })}
-              className="w-full p-3 border rounded-xl"
+              className="w-full p-3 border text-black-600rounded-xl"
               placeholder="Descripción"
             />
           </div>
@@ -125,7 +125,7 @@ const Perfil = ({ usuario }) => {
         {/* Mostrar la descripción si no está en modo edición */}
         {!editando && (
           <div className="bg-gray-50 p-6 rounded-xl">
-            <h3 className="text-2xl font-semibold mb-4">Sobre mí</h3>
+            <h3 className="text-2xl text-gray-600 font-semibold mb-4">Sobre mí</h3>
             <p className="text-lg">{usuario.descripcion || "No hay descripción aún."}</p>
           </div>
         )}
@@ -133,8 +133,8 @@ const Perfil = ({ usuario }) => {
         {/* Mostrar información de perfil */}
         {!editando && (
           <div>
-            <h3 className="text-2xl font-semibold mb-4">Información de Perfil</h3>
-            <ul className="list-none space-y-2 text-lg">
+            <h3 className="text-2xl text-black-600 font-semibold mb-4">Información de Perfil</h3>
+            <ul className="list-none space-y-2 text-black-600 text-lg">
               <li><strong>Nombre:</strong> {usuario.nombre}</li>
               {usuario.apellido && <li><strong>Apellido:</strong> {usuario.apellido}</li>}
               {usuario.cargo && <li><strong>Cargo:</strong> {usuario.cargo}</li>}
