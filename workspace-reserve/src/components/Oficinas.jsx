@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import oficinas from "../data/oficinas";
 import { FaSearch, FaFilter } from "react-icons/fa";
-import FormularioReserva from "./FormularioReserva"; // Asegúrate de importar correctamente
+import FormularioReserva from "./FormularioReserva";
+import Historial from "./Historial"; // IMPORTAR Historial
 
 const Oficinas = ({ usuario, actualizarReservas }) => {
   const [busqueda, setBusqueda] = useState("");
@@ -11,6 +12,7 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
   const [filtroTorre, setFiltroTorre] = useState("");
   const [filtroPiso, setFiltroPiso] = useState("");
   const [oficinaSeleccionada, setOficinaSeleccionada] = useState(null);
+  const [mostrarHistorial, setMostrarHistorial] = useState(false);
 
   const handleBusqueda = (e) => setBusqueda(e.target.value);
 
@@ -51,28 +53,31 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
           />
           <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         </div>
-        <button
-          onClick={() => setMostrarFiltros(!mostrarFiltros)}
-          className="flex items-center bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded"
-        >
-          <FaFilter className="mr-2" />
-          Filtros
-        </button>
+
+        {/* Botón de filtros */}
+        {usuario && usuario.cargo !== "Administrador" && (
+          <button
+            onClick={() => setMostrarFiltros(!mostrarFiltros)}
+            className="flex items-center bg-gray-200 hover:bg-gray-300 px-3 py-2 rounded"
+          >
+            <FaFilter className="mr-2" />
+            Filtros
+          </button>
+        )}
       </div>
 
       {/* Filtros avanzados */}
       {mostrarFiltros && (
-        <div className="mb-4 grid grid-cols-1 sm:grid-cols-2  md:grid-cols-4 gap-2">
+        <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
           <select
             value={filtroTipo}
             onChange={(e) => setFiltroTipo(e.target.value)}
             className="border bg-white-600 text-gray rounded p-2"
           >
-            <option value="" className="border bg-gray-600 rounded p-2">Tipo</option>
+            <option value="">Tipo</option>
             {tiposUnicos.map((tipo) => (
-              <option key={tipo} value={tipo} className="border rounded p-2">
+              <option key={tipo} value={tipo}>
                 {tipo}
-                
               </option>
             ))}
           </select>
@@ -120,6 +125,8 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
             <p className="text-sm text-gray-600 mb-2">
               Capacidad: {oficina.capacidad}
             </p>
+
+            {/* Mostrar solo botones de "Reservar" o "Editar" si hay usuario logueado */}
             {usuario && usuario.cargo !== "Administrador" && (
               <button
                 onClick={() => setOficinaSeleccionada(oficina)}
@@ -130,22 +137,35 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
             )}
             {usuario && usuario.cargo === "Administrador" && (
               <button
-                onClick={() => setOficinaSeleccionada(oficina)}
+                onClick={() => {
+                  setOficinaSeleccionada(oficina);
+                }}
                 className="absolute top-2 right-2 bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded"
               >
-                Modificar
+                Editar
               </button>
             )}
           </div>
         ))}
       </div>
 
-      {/* Modal de reserva */}
-      {oficinaSeleccionada && (
+      {/* Modal de reserva para usuarios normales */}
+      {oficinaSeleccionada && !mostrarHistorial && (
         <FormularioReserva
           oficina={oficinaSeleccionada}
           usuario={usuario}
           onClose={() => setOficinaSeleccionada(null)}
+        />
+      )}
+
+      {/* Modal de historial/editar para administradores */}
+      {oficinaSeleccionada && mostrarHistorial && (
+        <Historial
+          oficina={oficinaSeleccionada}
+          onClose={() => {
+            setOficinaSeleccionada(null);
+            setMostrarHistorial(false);
+          }}
         />
       )}
     </div>

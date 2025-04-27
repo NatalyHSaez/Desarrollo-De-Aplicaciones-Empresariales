@@ -193,13 +193,21 @@ const Perfil = ({ usuario }) => {
         )}
 
         {/* Botones de Volver al inicio y Eliminar perfil, más separados */}
+      
         <div className="flex justify-center space-x-6 pt-6">
           <button
-            onClick={() => navigate("/")}
+            onClick={() => {
+              if (usuario.cargo === "Administrador") {
+                navigate("/admin");
+              } else {
+                navigate("/");
+              }
+            }}
             className="bg-gray-600 hover:bg-gray-500 text-white text-lg px-6 py-2 rounded-xl min-w-[200px] transition"
           >
             Volver al Inicio
-          </button>
+          </button> 
+      
           <button
             onClick={handleEliminar}
             className="bg-red-600 hover:bg-red-500 text-white text-lg px-6 py-2 rounded-xl min-w-[200px] transition"
