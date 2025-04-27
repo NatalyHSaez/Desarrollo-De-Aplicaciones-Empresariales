@@ -66,12 +66,13 @@ const Oficinas = ({ usuario, actualizarReservas }) => {
           <select
             value={filtroTipo}
             onChange={(e) => setFiltroTipo(e.target.value)}
-            className="border rounded p-2"
+            className="border bg-gray-600 rounded p-2"
           >
-            <option value="">Tipo</option>
+            <option value="" className="border bg-gray-600 rounded p-2">Tipo</option>
             {tiposUnicos.map((tipo) => (
-              <option key={tipo} value={tipo}>
+              <option key={tipo} value={tipo} className="border bg-gray-600 rounded p-2">
                 {tipo}
+                
               </option>
             ))}
           </select>

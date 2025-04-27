@@ -49,10 +49,10 @@ const ProximasReservas = () => {
 
   return (
     <div className="p-4">
-      <h2 className="text-xl font-semibold mb-4">Próximas Reservas</h2>
+      <h2 className="text-xl text-black-600 font-semibold mb-4">Próximas Reservas</h2>
 
       {reservas.length === 0 ? (
-        <p>No tienes reservas próximas.</p>
+        <p className="text-black-600">No tienes reservas próximas.</p>
       ) : (
         <div className="space-y-4 overflow-y-auto max-h-[500px]"> {/* Agregar scroll si es necesario */}
           {reservas.map((reserva, index) => (
