@@ -20,12 +20,13 @@ const ProximasReservas = () => {
 
   // Filtra las reservas según el cargo del usuario
   const filtrarReservasPorUsuario = (reservas, usuario) => {
-    // Si el usuario es administrador, se ordenan todas las reservas por fecha
-    if (usuario.cargo === "administrador") {
-      return reservas
-        .sort((a, b) => new Date(a.fechaInicio) - new Date(b.fechaInicio)); // Ordenar por fecha de inicio
+    // Si el usuario es administrador, mostrar todas las reservas de los demás usuarios
+    if (usuario.cargo === "Administrador") {
+      // Filtrar solo reservas de otros usuarios (excluyendo al administrador)
+      return reservas.filter(reserva => reserva.usuario !== usuario.nombre).sort((a, b) => new Date(a.fechaInicio) - new Date(b.fechaInicio)); // Ordenar por fecha de inicio
     } else {
-      return reservas.filter(reserva => reserva.usuario === usuario.nombre); // Solo las reservas del usuario
+      // Si el usuario no es administrador, mostrar solo las reservas de ese usuario
+      return reservas.filter(reserva => reserva.usuario === usuario.nombre);
     }
   };
 
@@ -81,7 +82,7 @@ const ProximasReservas = () => {
               </div>
 
               {/* Botones */}
-              {reserva.usuario === usuario.nombre || usuario.cargo === "administrador" ? (
+              {reserva.usuario === usuario.nombre || usuario.cargo === "Administrador" ? (
                 <>
                   <button
                     onClick={() => handleModificarReserva(index)}
