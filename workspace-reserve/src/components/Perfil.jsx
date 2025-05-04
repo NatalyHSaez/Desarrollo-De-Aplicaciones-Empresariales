@@ -66,18 +66,17 @@ const Perfil = ({ usuario }) => {
               className="w-full h-full object-cover"
             />
           </div>
-          {editando ? (
+          {editando && (
             <input
               type="file"
               onChange={handleImagenChange}
               className="mt-4 text-blue-600"
             />
-          ) : null}
+          )}
           <h2 className="text-3xl text-black-600 font-bold text-center">{usuario.nombre} {usuario.apellido}</h2>
         </div>
 
-        {/* Formulario de edición */}
-        {editando && (
+        {editando ? (
           <div className="space-y-4">
             <input
               type="text"
@@ -116,21 +115,17 @@ const Perfil = ({ usuario }) => {
             <textarea
               value={nuevoUsuario.descripcion}
               onChange={(e) => setNuevoUsuario({ ...nuevoUsuario, descripcion: e.target.value })}
-              className="w-full p-3 border text-black-600rounded-xl"
+              className="w-full p-3 border text-black-600 rounded-xl"
               placeholder="Descripción"
             />
           </div>
-        )}
-
-        {/* Mostrar la descripción si no está en modo edición */}
-        {!editando && (
+        ) : (
           <div className="bg-gray-50 p-6 rounded-xl">
             <h3 className="text-2xl text-gray-600 font-semibold mb-4">Sobre mí</h3>
             <p className="text-lg">{usuario.descripcion || "No hay descripción aún."}</p>
           </div>
         )}
 
-        {/* Mostrar información de perfil */}
         {!editando && (
           <div>
             <h3 className="text-2xl text-black-600 font-semibold mb-4">Información de Perfil</h3>
@@ -142,7 +137,6 @@ const Perfil = ({ usuario }) => {
               {usuario.telefono && <li><strong>Teléfono:</strong> {usuario.telefono}</li>}
               <li><strong>Email:</strong> {usuario.correo}</li>
             </ul>
-            {/* Botón para editar perfil */}
             <div className="flex justify-between pt-4">
               <button
                 onClick={() => setEditando(true)}
@@ -162,25 +156,10 @@ const Perfil = ({ usuario }) => {
           </div>
         )}
 
-        {/* Mostrar reservas si no es administrador */}
         {usuario.cargo !== "Administrador" && !editando && (
-          <>
-            <div>
-              <ProximasReservas usuario={usuario} estado="pendiente" />
-            </div>
-          </>
+          <ProximasReservas usuario={usuario} estado="pendiente" />
         )}
 
-        {/* Mostrar botón y oficinas solo si es administrador */}
-        {usuario.cargo === "Administrador" && (
-          <>
-            <div className="flex justify-center pt-6">
-              <Oficinas />
-            </div>
-          </>
-        )}
-
-        {/* Botón para guardar los cambios */}
         {editando && (
           <div className="flex justify-center pt-6">
             <button
@@ -192,22 +171,19 @@ const Perfil = ({ usuario }) => {
           </div>
         )}
 
-        {/* Botones de Volver al inicio y Eliminar perfil, más separados */}
-      
+        {usuario.cargo === "Administrador" && (
+          <div className="pt-6">
+            <Oficinas usuario={usuario} />
+          </div>
+        )}
+
         <div className="flex justify-center space-x-6 pt-6">
           <button
-            onClick={() => {
-              if (usuario.cargo === "Administrador") {
-                navigate("/admin");
-              } else {
-                navigate("/");
-              }
-            }}
+            onClick={() => navigate(usuario.cargo === "Administrador" ? "/admin" : "/")}
             className="bg-gray-600 hover:bg-gray-500 text-white text-lg px-6 py-2 rounded-xl min-w-[200px] transition"
           >
             Volver al Inicio
-          </button> 
-      
+          </button>
           <button
             onClick={handleEliminar}
             className="bg-red-600 hover:bg-red-500 text-white text-lg px-6 py-2 rounded-xl min-w-[200px] transition"
@@ -217,7 +193,6 @@ const Perfil = ({ usuario }) => {
         </div>
       </div>
 
-      {/* Mostrar formulario de agregar oficina */}
       {agregarOficina && <AgregarOficina setAgregarOficina={setAgregarOficina} />}
     </div>
   );
