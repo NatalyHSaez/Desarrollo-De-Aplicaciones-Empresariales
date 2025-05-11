@@ -40,8 +40,7 @@ const FormularioEdicion = ({ oficina, onClose, onGuardar }) => {
     // Guardar en localStorage
     localStorage.setItem("oficina", JSON.stringify(oficinaEditada));
 
-    // Llamamos a la función para guardar, si es necesario
-    onGuardar(oficinaEditada); // Llamamos a la función para guardar
+    onGuardar(oficinaEditada); //Guardar informacion del formulario
     onClose(); // Cerramos el formulario
   };
 
