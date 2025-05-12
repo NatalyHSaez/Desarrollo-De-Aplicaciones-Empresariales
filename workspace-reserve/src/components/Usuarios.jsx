@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa"; // Iconos para mostrar/ocultar
 
 const Usuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -14,6 +15,7 @@ const Usuarios = () => {
     fechaNacimiento: "",
     contrasena: "",
   });
+  const [mostrarContrasena, setMostrarContrasena] = useState(false); // Estado para mostrar/ocultar contraseña
 
   useEffect(() => {
     const datosUsuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
@@ -88,9 +90,14 @@ const Usuarios = () => {
     setUsuarioEditado(null);
   };
 
+  // Función para alternar la visibilidad de la contraseña
+  const toggleMostrarContrasena = () => {
+    setMostrarContrasena(!mostrarContrasena);
+  };
+
   return (
-    <div className="relative p-6">
-      <h2 className="text-2xl font-bold mb-4">Usuarios Registrados</h2>
+    <div className="relative p-6 bg-gray-50">
+      <h2 className="text-2xl font-bold mb-4 text-gray-800">Usuarios Registrados</h2>
 
       {/* Buscador */}
       <div className="mb-4">
@@ -99,22 +106,22 @@ const Usuarios = () => {
           placeholder="Buscar..."
           value={busqueda}
           onChange={handleBusquedaChange}
-          className="w-full border rounded p-2"
+          className="w-full border rounded p-2 focus:outline-none focus:ring-2 focus:ring-red-200"
         />
       </div>
 
       {usuariosFiltrados.length === 0 ? (
-        <p>No se encontraron usuarios.</p>
+        <p className="text-gray-600">No se encontraron usuarios.</p>
       ) : (
         <table className="min-w-full border border-gray-300">
-          <thead className="bg-gray-100">
+          <thead className="bg-red-100">
             <tr>
-              <th className="border px-4 py-2">Nombre</th>
-              <th className="border px-4 py-2">Apellido</th>
-              <th className="border px-4 py-2">Cargo</th>
-              <th className="border px-4 py-2">Correo</th>
-              <th className="border px-4 py-2">Teléfono</th>
-              <th className="border px-4 py-2">Reservas</th>
+              <th className="border px-4 py-2 text-left text-gray-700">Nombre</th>
+              <th className="border px-4 py-2 text-left text-gray-700">Apellido</th>
+              <th className="border px-4 py-2 text-left text-gray-700">Cargo</th>
+              <th className="border px-4 py-2 text-left text-gray-700">Correo</th>
+              <th className="border px-4 py-2 text-left text-gray-700">Teléfono</th>
+              <th className="border px-4 py-2 text-left text-gray-700">Reservas</th>
             </tr>
           </thead>
           <tbody>
@@ -124,7 +131,7 @@ const Usuarios = () => {
               return (
                 <tr
                   key={index}
-                  className="text-center cursor-pointer"
+                  className="text-center cursor-pointer hover:bg-red-50"
                   onClick={() => handleUsuarioClick(usuario)}
                 >
                   <td className="border px-4 py-2">{usuario.nombre}</td>
@@ -143,17 +150,17 @@ const Usuarios = () => {
       {/* Overlay de perfil de usuario */}
       {usuarioSeleccionado && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
-          <div className="bg-white p-6 rounded shadow-lg w-1/2">
+          <div className="bg-white p-6 rounded shadow-lg w-1/2 max-w-lg">
             <button
               onClick={handleCerrarPerfil}
               className="bg-red-500 text-white px-4 py-2 rounded mb-4"
             >
               Cerrar Perfil
             </button>
-            <h3 className="text-xl font-semibold">Perfil de {usuarioSeleccionado.nombre}</h3>
+            <h3 className="text-xl font-semibold text-black">Perfil de {usuarioSeleccionado.nombre}</h3>
             {usuarioEditado ? (
               <div>
-                <label className="block">
+                <label className="block text-black">
                   Nombre:
                   <input
                     type="text"
@@ -163,7 +170,7 @@ const Usuarios = () => {
                     className="border rounded p-2 mt-1 w-full"
                   />
                 </label>
-                <label className="block">
+                <label className="block text-black">
                   Apellido:
                   <input
                     type="text"
@@ -173,7 +180,7 @@ const Usuarios = () => {
                     className="border rounded p-2 mt-1 w-full"
                   />
                 </label>
-                <label className="block">
+                <label className="block text-black">
                   Correo:
                   <input
                     type="email"
@@ -183,7 +190,7 @@ const Usuarios = () => {
                     className="border rounded p-2 mt-1 w-full"
                   />
                 </label>
-                <label className="block">
+                <label className="block text-black">
                   Teléfono:
                   <input
                     type="tel"
@@ -193,7 +200,7 @@ const Usuarios = () => {
                     className="border rounded p-2 mt-1 w-full"
                   />
                 </label>
-                <label className="block">
+                <label className="block text-black">
                   Fecha de Nacimiento:
                   <input
                     type="date"
@@ -203,15 +210,24 @@ const Usuarios = () => {
                     className="border rounded p-2 mt-1 w-full"
                   />
                 </label>
-                <label className="block">
+                <label className="block text-black">
                   Contraseña:
-                  <input
-                    type="password"
-                    name="contrasena"
-                    value={formData.contrasena}
-                    onChange={handleInputChange}
-                    className="border rounded p-2 mt-1 w-full"
-                  />
+                  <div className="relative">
+                    <input
+                      type={mostrarContrasena ? "text" : "password"}
+                      name="contrasena"
+                      value={formData.contrasena}
+                      onChange={handleInputChange}
+                      className="border rounded p-2 mt-1 w-full"
+                    />
+                    <button
+                      type="button"
+                      onClick={toggleMostrarContrasena}
+                      className="absolute right-2 top-2 text-gray-600"
+                    >
+                      {mostrarContrasena ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
                 </label>
                 <button
                   onClick={handleGuardarCambios}
@@ -222,14 +238,14 @@ const Usuarios = () => {
               </div>
             ) : (
               <div>
-                <p><strong>Nombre:</strong> {usuarioSeleccionado.nombre}</p>
-                <p><strong>Apellido:</strong> {usuarioSeleccionado.apellido}</p>
-                <p><strong>Cargo:</strong> {usuarioSeleccionado.cargo}</p>
-                <p><strong>Correo:</strong> {usuarioSeleccionado.correo}</p>
-                <p><strong>Teléfono:</strong> {usuarioSeleccionado.telefono}</p>
-                <p><strong>Fecha de Nacimiento:</strong> {formatearFechaNacimiento(usuarioSeleccionado.fechaNacimiento)}</p>
-                <p><strong>Contraseña:</strong> {usuarioSeleccionado.contrasena}</p>
-                <p><strong>Reservas:</strong> {contarReservasPorUsuario(usuarioSeleccionado.nombre)}</p>
+                <p className="text-black"><strong>Nombre:</strong> {usuarioSeleccionado.nombre}</p>
+                <p className="text-black"><strong>Apellido:</strong> {usuarioSeleccionado.apellido}</p>
+                <p className="text-black"><strong>Cargo:</strong> {usuarioSeleccionado.cargo}</p>
+                <p className="text-black"><strong>Correo:</strong> {usuarioSeleccionado.correo}</p>
+                <p className="text-black"><strong>Teléfono:</strong> {usuarioSeleccionado.telefono}</p>
+                <p className="text-black"><strong>Fecha de Nacimiento:</strong> {formatearFechaNacimiento(usuarioSeleccionado.fechaNacimiento)}</p>
+                <p className="text-black"><strong>Contraseña:</strong> {usuarioSeleccionado.contrasena}</p>
+                <p className="text-black"><strong>Reservas:</strong> {contarReservasPorUsuario(usuarioSeleccionado.nombre)}</p>
                 <button
                   onClick={() => setUsuarioEditado(usuarioSeleccionado)}
                   className="bg-green-500 text-white px-4 py-2 rounded mt-4"
